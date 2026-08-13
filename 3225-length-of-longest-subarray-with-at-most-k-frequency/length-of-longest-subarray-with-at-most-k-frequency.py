@@ -1,16 +1,16 @@
-from collections import defaultdict
-
 class Solution:
     def maxSubarrayLength(self, nums: list[int], k: int) -> int:
-        count = defaultdict(int)
+        freq = {}
         left = 0
-        ans = 0
+        max_len = 0
         
         for right in range(len(nums)):
-            count[nums[right]] += 1
-            while count[nums[right]] > k:
-                count[nums[left]] -= 1
-                left += 1
-            ans = max(ans, right - left + 1)
+            freq[nums[right]] = freq.get(nums[right], 0) + 1
             
-        return ans
+            while freq[nums[right]] > k:
+                freq[nums[left]] -= 1
+                left += 1
+                
+            max_len = max(max_len, right - left + 1)
+            
+        return max_len
